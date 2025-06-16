@@ -5,7 +5,6 @@
 
 //import { getGreeting } from "./common.mjs";
 //import daysData from "./days.json" with { type: "json" };
-let nav = 0;
 
 const yearSelect = document.getElementById("year-select");
 const monthSelect = document.getElementById("month-select");
@@ -75,6 +74,31 @@ function load() {
   }
 }
 
+
+
+function populateDropdown() {
+  monthNames.forEach((name, idx) => {
+    const opt = document.createElement("option");
+    opt.value = idx;
+    opt.textContent = name;
+    monthSelect.appendChild(opt);
+  });
+
+
+
+  for(let y = 1900; y <= 2050; y++){
+    const opt = document.createElement('option');;
+    opt.value = y;
+    opt.textContent = y;
+    yearSelect.appendChild(opt);
+  }
+
+  const today = new Date();
+  monthSelect.value = today.getMonth();
+  yearSelect.value = today.getFullYear();
+}
+
+populateDropdown();
 load();
 
 //Event listeners
