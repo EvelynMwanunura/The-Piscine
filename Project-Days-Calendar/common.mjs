@@ -14,7 +14,7 @@ const monthMap = {
   December: 11,
 };
 
-const occuranceMap = {
+const occurenceMap = {
   first: 1,
   second: 2,
   third: 3,
@@ -41,6 +41,7 @@ function getLastWeekdayOfMonth(year, month, weekday) {
 }
 
 export function getCommemorativeDates(year, commemorativeDays) {
+  console.log("commemorativeDays input:", commemorativeDays);
   const dates = [];
 
   for (const day of commemorativeDays) {
@@ -56,10 +57,10 @@ export function getCommemorativeDates(year, commemorativeDays) {
     ].indexOf(day.dayName);
 
     let date;
-    if (day.occurance === "last") {
+    if (day.occurence === "last") {
       date = getLastWeekdayOfMonth(year, month, weekday);
     } else {
-      const nth = occuranceMap[day.occurance];
+      const nth = occurenceMap[day.occurence];
       date = getNthWeekdayOfMonth(year, month, weekday, nth);
     }
 
@@ -72,6 +73,7 @@ export function getCommemorativeDates(year, commemorativeDays) {
       });
     }
   }
-
+  console.log("All commemorative dates for year", year, ":", dates);
   return dates;
 }
+console.log(getNthWeekdayOfMonth(2025, 9, 2, 2));
