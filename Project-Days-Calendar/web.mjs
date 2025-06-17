@@ -4,7 +4,6 @@
 // You can't open the index.html file using a file:// URL.
 
 import { getCommemorativeDates } from "./common.mjs";
-//import { renderCalendar } from "./generate-ical.mjs";
 
 let commemorativeDays = [];
 
@@ -20,7 +19,6 @@ const yearSelect = document.getElementById("year-select");
 const monthSelect = document.getElementById("month-select");
 
 const calendar = document.getElementById("calendar");
-const monthDisplay = document.getElementById("monthDisplay");
 
 const monthNames = [
   "January",
@@ -40,7 +38,7 @@ function renderCalendar(year, month, specialDays) {
   const table = document.createElement("table");
   table.className = "calendar-table";
   const header = table.insertRow();
-  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   for (const day of daysOfWeek) {
     const th = document.createElement("th");
     th.textContent = day;
@@ -48,7 +46,8 @@ function renderCalendar(year, month, specialDays) {
   }
 
   const firstDay = new Date(year, month, 1);
-  const startingDay = firstDay.getDay();
+  let startingDay = firstDay.getDay();
+  startingDay = (startingDay + 6) % 7; // Adjust to make Monday the first day of the week
   const monthLength = new Date(year, month + 1, 0).getDate();
 
   let row = table.insertRow();
@@ -61,14 +60,7 @@ function renderCalendar(year, month, specialDays) {
     const cell = row.insertCell();
     cell.textContent = day;
 
-    console.log("Current day:", day);
-    console.log("Special days:", specialDays);
-    specialDays.forEach((d) =>
-      console.log("Special date:", d.date, typeof d.date)
-    );
-
     const special = specialDays.find((d) => Number(d.date) === day);
-    console.log("Found special:", special);
 
     if (special) {
       cell.classList.add("special-day");
@@ -102,8 +94,6 @@ function load() {
   calendar.innerHTML = "";
   const table = renderCalendar(year, month, filteredSpecialDays);
   calendar.appendChild(table);
-
-  monthDisplay.textContent = `${monthNames[month]} ${year}`;
 }
 
 function populateDropdown() {
