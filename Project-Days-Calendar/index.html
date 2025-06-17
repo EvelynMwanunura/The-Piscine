@@ -1,48 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Days Calendar</title>
-  <link rel="stylesheet" href="style.css">
-
-</head>
-<body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Days Calendar</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div id="calendar-controls">
+      <div id="select">
+        <label for="month-select" class="visually-hidden">Month:</label>
+        <select id="month-select" aria-label="Select month"></select>
+        <label for="year-select" class="visually-hidden">Year:</label>
+        <select id="year-select" aria-label="Select year"></select>
+      </div>
 
-        <div id="select">
-            <label for="month-select" class="visually-hidden">Month:</label>
-            <select id="month-select" aria-label="Select month">
-            </select>
-            <label for="year-select" class="visually-hidden">Year:</label>
-            <select id="year-select" aria-label="Select year">
-            </select>
+      <div id="header">
+        <div id="monthDisplay"></div>
+        <div>
+          <button id="prev-month">Previous</button>
+          <button id="next-month">Next</button>
         </div>
-        
-        <div id="header">
-            <div id="monthDisplay"></div>
-            <div>
-            <button id="prev-month">Previous</button>
-            <button id="next-month">Next</button>
-            </div>
-        </div>
+      </div>
 
-
-        <div id="weekdays">
-            
-            <div>Monday</div>
-            <div>Tuesday</div>
-            <div>Wednesday</div>
-            <div>Thursday</div>
-            <div>Friday</div>
-            <div>Saturday</div><div>Sunday</div>
-        </div>
-
-
-        <div id="calendar"></div>
+      <div id="calendar"></div>
     </div>
 
-  <script src="web.mjs"></script>
-</body>
+    <script type="module" src="web.mjs"></script>
+  </body>
 </html>
