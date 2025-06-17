@@ -3,13 +3,23 @@
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
 
-//import { getGreeting } from "./common.mjs";
-//import daysData from "./days.json" with { type: "json" };
+import { getCommemorativeDates } from "./common.mjs";
+import { renderCalendar } from "./generate-ical.mjs";
+
+let commemorativeDays = [];
+
+async function loadCommemorativeDays() {
+  const response = await fetch("./days.json");
+  commemorativeDays = await response.json();
+  console.log("Commemorative days loaded:", commemorativeDays);
+  load();
+}
+loadCommemorativeDays();
 
 const yearSelect = document.getElementById("year-select");
 const monthSelect = document.getElementById("month-select");
 
-const calender = document.getElementById("calendar");
+const calendar = document.getElementById("calendar");
 const monthDisplay = document.getElementById("monthDisplay");
 
 const monthNames = [
@@ -26,55 +36,32 @@ const monthNames = [
   "November",
   "December",
 ];
-const weekdays = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
 
 function load() {
-  const today = new Date();
-
-  const day = today.getDate();
-  const month = today.getMonth();
-  const year = today.getFullYear();
-
-  const firstDay = new Date(year, month, 1); // first day of this month
-  const daysInMonth = new Date(year, month + 1, 0).getDate(); // 0 = last day of prev month
-
-  const dateString = firstDay.toLocaleDateString("en-GB", {
-    weekday: "long",
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-  });
-
-  const paddingDays = weekdays.indexOf(dateString.split(", ")[0]); // if its sunday = 6
-
-  monthDisplay.innerText = `${today.toLocaleDateString("en-GB", {
-    month: "long",
-  })} ${year}`;
-
-  for (let i = 1; i <= paddingDays + daysInMonth; i++) {
-    const daySquare = document.createElement("div");
-    daySquare.classList.add("day");
-
-    if (i > paddingDays) {
-      daySquare.innerText = i - paddingDays;
-
-      daySquare.addEventListener("click", () => console.log("click"));
-    } else {
-      daySquare.classList.add("padding");
-    }
-    calender.appendChild(daySquare);
+  const month = parseInt(monthSelect.value);
+  const year = parseInt(yearSelect.value);
+  if (!commemorativeDays || commemorativeDays.length === 0) {
+    console.warn("Commemorative days not loaded yet.");
+    return;
   }
+
+  // Get list of special commemorative dates for selected year and month
+  const specialDaysList = getCommemorativeDates(year, commemorativeDays);
+  const filteredSpecialDays = specialDaysList.filter(
+    (day) => day.month === month + 1
+  ); // month + 1 because months in  data are 1-based
+
+  console.log(
+    "Filtered specialDays passed to renderCalendar:",
+    filteredSpecialDays
+  );
+  calendar.innerHTML = "";
+  const table = renderCalendar(year, month, filteredSpecialDays);
+  calendar.appendChild(table);
+
+  // Set month display text
+  monthDisplay.textContent = `${monthNames[month]} ${year}`;
 }
-
-
 
 function populateDropdown() {
   monthNames.forEach((name, idx) => {
@@ -84,10 +71,8 @@ function populateDropdown() {
     monthSelect.appendChild(opt);
   });
 
-
-
-  for(let y = 1900; y <= 2050; y++){
-    const opt = document.createElement('option');;
+  for (let y = 1900; y <= 2050; y++) {
+    const opt = document.createElement("option");
     opt.value = y;
     opt.textContent = y;
     yearSelect.appendChild(opt);
@@ -119,7 +104,7 @@ prevBtn.addEventListener("click", () => {
   monthSelect.value = m;
   yearSelect.value = y;
 
-  load(); // Re-render calendar
+  load();
 });
 
 // Next month button logic
