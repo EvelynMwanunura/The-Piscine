@@ -73,7 +73,6 @@ export function getCommemorativeDates(year, commemorativeDays) {
       });
     }
   }
-  console.log("All commemorative dates for year", year, ":", dates);
+
   return dates;
 }
-console.log(getNthWeekdayOfMonth(2025, 9, 2, 2));
