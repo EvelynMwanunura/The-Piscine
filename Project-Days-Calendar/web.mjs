@@ -11,7 +11,7 @@ let commemorativeDays = [];
 async function loadCommemorativeDays() {
   const response = await fetch("./days.json");
   commemorativeDays = await response.json();
-  console.log("Commemorative days loaded:", commemorativeDays);
+
   load();
 }
 loadCommemorativeDays();
@@ -41,7 +41,6 @@ function load() {
   const month = parseInt(monthSelect.value);
   const year = parseInt(yearSelect.value);
   if (!commemorativeDays || commemorativeDays.length === 0) {
-    console.warn("Commemorative days not loaded yet.");
     return;
   }
 
@@ -59,7 +58,6 @@ function load() {
   const table = renderCalendar(year, month, filteredSpecialDays);
   calendar.appendChild(table);
 
-  // Set month display text
   monthDisplay.textContent = `${monthNames[month]} ${year}`;
 }
 
@@ -124,3 +122,7 @@ nextBtn.addEventListener("click", () => {
 
   load();
 });
+yearSelect.addEventListener("change", load);
+monthSelect.addEventListener("change", load);
+populateDropdown();
+load();
