@@ -17,7 +17,7 @@ loadCommemorativeDays();
 
 const yearSelect = document.getElementById("year-select");
 const monthSelect = document.getElementById("month-select");
-
+const monthDisplay = document.getElementById("monthDisplay");
 const calendar = document.getElementById("calendar");
 
 const monthNames = [
@@ -34,6 +34,7 @@ const monthNames = [
   "November",
   "December",
 ];
+
 function renderCalendar(year, month, specialDays) {
   const table = document.createElement("table");
   table.className = "calendar-table";
@@ -92,8 +93,10 @@ function load() {
   ); // month + 1 because months in  data are 1-based
 
   calendar.innerHTML = "";
+
   const table = renderCalendar(year, month, filteredSpecialDays);
   calendar.appendChild(table);
+  monthDisplay.textContent = `${monthNames[Number(month)]} ${year}`;
 }
 
 function populateDropdown() {
