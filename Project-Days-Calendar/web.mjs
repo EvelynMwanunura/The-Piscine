@@ -36,6 +36,10 @@ const monthNames = [
 ];
 
 function renderCalendar(year, month, specialDays) {
+  const today = new Date();
+  const isCurrentMonth =
+    today.getFullYear() === year && today.getMonth() === month;
+
   const table = document.createElement("table");
   table.className = "calendar-table";
   const header = table.insertRow();
@@ -60,6 +64,10 @@ function renderCalendar(year, month, specialDays) {
     if (row.cells.length % 7 === 0) row = table.insertRow();
     const cell = row.insertCell();
     cell.textContent = day;
+
+    if (isCurrentMonth && day === today.getDate()) {
+      cell.classList.add("today");
+    }
 
     const special = specialDays.find((d) => Number(d.date) === day);
 
@@ -114,7 +122,8 @@ function populateDropdown() {
     yearSelect.appendChild(opt);
   }
 
-  const today = new Date();
+  let today = new Date();
+
   monthSelect.value = today.getMonth();
   yearSelect.value = today.getFullYear();
 }
@@ -162,5 +171,3 @@ nextBtn.addEventListener("click", () => {
 });
 yearSelect.addEventListener("change", load);
 monthSelect.addEventListener("change", load);
-populateDropdown();
-load();

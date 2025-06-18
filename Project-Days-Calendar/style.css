@@ -71,3 +71,9 @@ body {
   position: relative;
   background-color: #fafafa;
 }
+.today {
+  background-color: #4caf50;
+  color: blue;
+  border-radius: 50%;
+  font-weight: bold;
+}
