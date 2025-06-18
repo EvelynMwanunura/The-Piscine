@@ -1,25 +1,30 @@
-// This is a placeholder file which shows how you can access functions and data defined in other files. You can delete the contents of the file once you have understood how it works.
-// It can be run with `node`.
 import fs from "node:fs";
-import commemorativeDys from "./days.json" with { type: "json" };
+import commemorativeDays from "./days.json" with { type: "json" };
 import { generateDatesForYear } from "./dateUtils.mjs";
 
 const startYear = 2020;
 const endYear = 2030;
-let icsContent = `BEGIN: VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\n`;
+let icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\n`;
 
-commemorativeDys.forEach((dayInfo) => {
+commemorativeDays.forEach((dayInfo) => {
   const dates = generateDatesForYear(
-    dayInfo.day,
-    dayInfo.month,
+    dayInfo.monthName,
+    dayInfo.dayName,
+    dayInfo.occurence,
     startYear,
     endYear
   );
- 
-  console.log("Commemorative Days JSON:", commemorativeDys);
 
   dates.forEach((date) => {
-    icsContent += `BEGIN:VEVENT\nSUMMARY:${dayInfo.name}\nDTSTART;VALUE=DATE:${date}\nDTEND;VALUE=DATE:${date}\nDESCRIPTION:${dayInfo.description}\nEND:VEVENT\n`;
+    icsContent += `BEGIN:VEVENT\n`;
+    icsContent += `UID:${dayInfo.name.replace(/\s+/g, "-").toLowerCase()}-${date}\n`;
+    icsContent += `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").split(".")[0]}Z\n`;
+    icsContent += `SUMMARY:${dayInfo.name}\n`;
+    icsContent += `DTSTART;VALUE=DATE:${date}\n`;
+    icsContent += `DTEND;VALUE=DATE:${date}\n`;
+    icsContent += `DESCRIPTION:See more at ${dayInfo.descriptionURL}\n`;
+    icsContent += `END:VEVENT\n`;
+    console.log(`Added event for ${dayInfo.name} on ${date}`);
   });
 });
 
