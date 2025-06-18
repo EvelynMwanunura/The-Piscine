@@ -10,7 +10,7 @@ let commemorativeDays = [];
 async function loadCommemorativeDays() {
   const response = await fetch("./days.json");
   commemorativeDays = await response.json();
-
+  console.log("Loaded commemorative days:", commemorativeDays);
   load();
 }
 loadCommemorativeDays();
@@ -42,6 +42,7 @@ function renderCalendar(year, month, specialDays) {
 
   const table = document.createElement("table");
   table.className = "calendar-table";
+
   const header = table.insertRow();
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   for (const day of daysOfWeek) {
@@ -57,7 +58,7 @@ function renderCalendar(year, month, specialDays) {
 
   let row = table.insertRow();
   for (let i = 0; i < startingDay; i++) {
-    row.insertCell(); // Empty cell
+    row.insertCell();
   }
 
   for (let day = 1; day <= monthLength; day++) {
