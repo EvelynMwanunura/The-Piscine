@@ -76,3 +76,14 @@ export function getCommemorativeDates(year, commemorativeDays) {
 
   return dates;
 }
+console.log(
+  getCommemorativeDates(2023, [
+    {
+      name: "Example Day",
+      monthName: "January",
+      dayName: "Tuesday",
+      occurence: "first",
+      descriptionURL: "https://example.com/day-info",
+    },
+  ])
+);
