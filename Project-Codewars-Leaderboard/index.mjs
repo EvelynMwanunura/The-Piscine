@@ -10,7 +10,8 @@
 const userInput = document.getElementById("userInput");
 const submit = document.getElementById("submit");
 const tableElement = document.getElementById("table");
-const languageSelect = document.getElementById("langaugeSelect");
+const languageSelect = document.getElementById("languageSelect");
+
 
 let userData = []
 
@@ -45,8 +46,9 @@ const fetchData = async (username) => {
 
 //fetchData()
 
-const renderTableRows = (table, userData, selectedLanguage=""){
-  const score = selectedLanguage?userData.ranks?.language?.[selectedLanguage]?.score|| 0 :userData.ranks?.overall?.score || 0
+const renderTableRows = (table, userData, selectedLanguage="") => {
+const score = selectedLanguage ? userData.ranks?.languages?.[selectedLanguage]?.score || 0 : userData.ranks?.overall?.score || 0;
+
 
 
   const row = table.insertRow();
@@ -55,6 +57,67 @@ const renderTableRows = (table, userData, selectedLanguage=""){
   for(const cellData of cells) {
     const td = document.createElement("td");
     td.textContent = cellData;
-    row.appendChild(td)
+    row.appendChild(td);
   }
 }
+
+
+
+submit.addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  const usernames = userInput.value.split(",").map(user => user.trim()).filter(Boolean);
+  const table = renderLeaderBoard();
+
+  const allUserData = [];
+  for (const username of usernames) {
+    const data = await fetchData(username);
+    if(data) {
+      allUserData.push(data)
+    }
+  }
+  userData = allUserData;
+  allUserData.sort((a,b) => (b.ranks?.overall?.score) - (a.ranks?.overall?.score));
+
+  for(const user of allUserData){
+    renderTableRows(table, user)
+  }
+  if(allUserData.length && allUserData[0].ranks?.languages) {
+    languageDropdown(allUserData[0].ranks.languages)
+  }
+})
+
+
+
+const languageDropdown = (languageObject) => {
+  languageSelect.innerHTML = "";
+  const defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.textContent = "Overall Score";
+  languageSelect.appendChild(defaultOption);
+
+const languages = Object.keys(languageObject)
+for(const language of languages) {
+  const option = document.createElement("option");
+  option.textContent = language;
+  option.value = language;
+  languageSelect.appendChild(option)
+}
+
+languageSelect.onchange = () => {
+  const selectedLanguage = languageSelect.value;
+  const table = renderLeaderBoard();
+
+  const sorted = [...userData].sort((a, b) => {
+    const scoreA = selectedLanguage ? a.ranks?.languages?.[selectedLanguage]?.score || 0 : a.ranks?.overall?.score || 0;
+const scoreB = selectedLanguage ? b.ranks?.languages?.[selectedLanguage]?.score || 0 : b.ranks?.overall?.score || 0;
+
+return scoreB - scoreA;
+  })
+  for(const user of sorted) {
+    renderTableRows(table, user, selectedLanguage)
+  }
+}
+};
+
+window.onload = () => renderLeaderBoard();
