@@ -43,4 +43,18 @@ const fetchData = async (username) => {
 }
 }
 
-fetchData()
+//fetchData()
+
+const renderTableRows = (table, userData, selectedLanguage=""){
+  const score = selectedLanguage?userData.ranks?.language?.[selectedLanguage]?.score|| 0 :userData.ranks?.overall?.score || 0
+
+
+  const row = table.insertRow();
+  const cells = [userData.username, userData.clan || "N/A", score]
+
+  for(const cellData of cells) {
+    const td = document.createElement("td");
+    td.textContent = cellData;
+    row.appendChild(td)
+  }
+}
