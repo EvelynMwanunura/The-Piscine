@@ -81,12 +81,10 @@ submit.addEventListener("click", async (e) => {
   userData = allUserData;
   allUserData.sort((a,b) => (b.ranks?.overall?.score) - (a.ranks?.overall?.score));
 
-  /*for(const user of allUserData){
-    renderTableRows(table, user)
-  }*/
+ 
 
     for (let i = 0; i < allUserData.length; i++) {
-  renderTableRows(table, allUserData[i], "", i === 0); // highlight the top user
+  renderTableRows(table, allUserData[i], "", i === 0); 
 }
 
   if(allUserData.length && allUserData[0].ranks?.languages) {
@@ -122,9 +120,7 @@ const scoreB = selectedLanguage ? b.ranks?.languages?.[selectedLanguage]?.score 
 
 return scoreB - scoreA;
   })
-  /*for(const user of sorted) {
-    renderTableRows(table, user, selectedLanguage)
-  }*/
+ 
 
     for (let i = 0; i < sorted.length; i++) {
   renderTableRows(table, sorted[i], selectedLanguage, i === 0);
