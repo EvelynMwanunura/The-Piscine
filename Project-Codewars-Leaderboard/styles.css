@@ -1,0 +1,74 @@
+
+
+
+form {
+  margin: 20px auto;
+  max-width: 600px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+}
+
+
+#userInput {
+  flex-grow: 1;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#submit {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+#submit:hover {
+  background-color: #45a049;
+}
+
+
+#languageSelect {
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+
+.leaderBoardTable {
+  width: 90%;
+  max-width: 700px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+
+.leaderBoardTable th {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+
+.leaderBoardTable td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+
+.leaderBoardTable tr:hover {
+  background-color: #f1f1f1;
+}
