@@ -46,12 +46,14 @@ const fetchData = async (username) => {
 
 //fetchData()
 
-const renderTableRows = (table, userData, selectedLanguage="") => {
+const renderTableRows = (table, userData, selectedLanguage="", highlight = false) => {
 const score = selectedLanguage ? userData.ranks?.languages?.[selectedLanguage]?.score || 0 : userData.ranks?.overall?.score || 0;
 
 
 
   const row = table.insertRow();
+  if (highlight) row.classList.add("highlight");
+
   const cells = [userData.username, userData.clan || "N/A", score]
 
   for(const cellData of cells) {
@@ -79,12 +81,18 @@ submit.addEventListener("click", async (e) => {
   userData = allUserData;
   allUserData.sort((a,b) => (b.ranks?.overall?.score) - (a.ranks?.overall?.score));
 
-  for(const user of allUserData){
+  /*for(const user of allUserData){
     renderTableRows(table, user)
-  }
+  }*/
+
+    for (let i = 0; i < allUserData.length; i++) {
+  renderTableRows(table, allUserData[i], "", i === 0); // highlight the top user
+}
+
   if(allUserData.length && allUserData[0].ranks?.languages) {
     languageDropdown(allUserData[0].ranks.languages)
   }
+   userInput.value = "";
 })
 
 
@@ -114,9 +122,14 @@ const scoreB = selectedLanguage ? b.ranks?.languages?.[selectedLanguage]?.score 
 
 return scoreB - scoreA;
   })
-  for(const user of sorted) {
+  /*for(const user of sorted) {
     renderTableRows(table, user, selectedLanguage)
-  }
+  }*/
+
+    for (let i = 0; i < sorted.length; i++) {
+  renderTableRows(table, sorted[i], selectedLanguage, i === 0);
+}
+
 }
 };
 
