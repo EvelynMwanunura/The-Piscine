@@ -9,7 +9,7 @@ let commemorativeDays = [];
 
 async function loadCommemorativeDays() {
   const response = await fetch("./days.json");
-  commemorativeDays = await response.json();
+
   console.log("Loaded commemorative days:", commemorativeDays);
   load();
 }
