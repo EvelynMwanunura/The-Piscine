@@ -10,10 +10,12 @@
 import test from "node:test";
 import assert from "node:assert";
 import nock from "nock";
-import { makeFetchRequest } from "./index.mjs";
+import { fetchData } from "./api.mjs";
 
 test("mocks a fetch function", async () => {
-  // Create a fetch request "mock" using the nock library, which "replaces"
+  const mockUsername = "Evelyn"
+  
+   // Create a fetch request "mock" using the nock library, which "replaces"
   // real requests with fake ones that we can control in the test using nock
   // functions.
   // In this example, we set up nock so that it looks for GET requests to

@@ -5,6 +5,10 @@
 
 import { getCommemorativeDates } from "./common.mjs";
 
+
+
+
+
 let commemorativeDays = [];
 
 async function loadCommemorativeDays() {
@@ -14,6 +18,7 @@ async function loadCommemorativeDays() {
   load();
 }
 loadCommemorativeDays();
+
 
 const yearSelect = document.getElementById("year-select");
 const monthSelect = document.getElementById("month-select");

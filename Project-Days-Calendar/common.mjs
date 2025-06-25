@@ -41,7 +41,7 @@ function getLastWeekdayOfMonth(year, month, weekday) {
 }
 
 export function getCommemorativeDates(year, commemorativeDays) {
-  console.log("commemorativeDays input:", commemorativeDays);
+ 
   const dates = [];
 
   for (const day of commemorativeDays) {
@@ -76,14 +76,4 @@ export function getCommemorativeDates(year, commemorativeDays) {
 
   return dates;
 }
-console.log(
-  getCommemorativeDates(2023, [
-    {
-      name: "Example Day",
-      monthName: "January",
-      dayName: "Tuesday",
-      occurence: "first",
-      descriptionURL: "https://example.com/day-info",
-    },
-  ])
-);
+
