@@ -78,15 +78,24 @@ submit.addEventListener("click", async (e) => {
   userInput.value = "";
 });
 
-const languageDropdown = (languageObject) => {
+const languageDropdown = () => {
   languageSelect.innerHTML = "";
   const defaultOption = document.createElement("option");
   defaultOption.value = "";
   defaultOption.textContent = "Overall Score";
   languageSelect.appendChild(defaultOption);
 
-  const languages = Object.keys(languageObject);
-  for (const language of languages) {
+  const languageSet = new Set();
+  userData.forEach((user) => {
+    const languages = user.ranks?.languages;
+    if (languages) {
+      Object.keys(languages).forEach((lang) => languageSet.add(lang));
+    }
+  });
+
+  const sortedLanguages = Array.from(languageSet).sort();
+
+  for (const language of sortedLanguages) {
     const option = document.createElement("option");
     option.textContent = language;
     option.value = language;
@@ -96,7 +105,6 @@ const languageDropdown = (languageObject) => {
   languageSelect.onchange = () => {
     const selectedLanguage = languageSelect.value;
     const table = renderLeaderBoard();
-
     const sorted = [...userData].sort((a, b) => {
       const scoreA = selectedLanguage
         ? a.ranks?.languages?.[selectedLanguage]?.score || 0
