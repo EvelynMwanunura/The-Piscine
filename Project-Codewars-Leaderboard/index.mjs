@@ -65,6 +65,9 @@ submit.addEventListener("click", async (e) => {
   const results = await Promise.all(fetchPromise);
   const allUserData = results.filter((data) => data);
 
+  //console.log("Raw fetch results:", results);
+  //console.log("Filtered user data:", allUserData);
+
   userData = allUserData;
   allUserData.sort((a, b) => b.ranks?.overall?.score - a.ranks?.overall?.score);
 
